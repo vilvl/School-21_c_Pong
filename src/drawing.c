@@ -4,11 +4,10 @@
 #define FIELD_HEIGHT 25
 #define RACKET_WIDTH 3
 #define RACKET_SHIFT 3
-int x = 80;
 int y = 0;
 void draw(ball_x, ball_y, racket1, racket2, score1, score2)
     {
-while (y != 26 ) {
+for (int y = 0; y <= FIELD_HEIGHT; y++ ) {
     y = y + 1;
     for(int i = 0; FIELD_WIDTH >= i; i++) {
         if((y == 1) || (y == 26)) {
