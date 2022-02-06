@@ -1,53 +1,55 @@
 #include <stdio.h>
 
 #define FIELD_WIDTH 80
-#define FIELD_HEIGHT 25
+#define FIELD_HIGHT 25
 #define RACKET_WIDTH 3
 #define RACKET_SHIFT 3
-int y = 0;
-void draw(ball_x, ball_y, racket1, racket2, score1, score2)
-    {
-for (int y = 0; y <= FIELD_HEIGHT; y++ ) {
-    y = y + 1;
-    for(int i = 0; FIELD_WIDTH >= i; i++) {
-        if((y == 1) || (y == 26)) {
-            printf("-");
-        } else {
-            if(((i == 0) || (i == 80)) && ((y != 1) || (y != 26))) {
-                printf("|");
-            } else {
-                if ((y == 2) && (i == 40)) {
-                    printf("%d||%d", score1, score2);
-                    i+=4;
-                }
-                for(int j = 0; j < 3; j++) {
-                if((i == 3) && (y == racket1+j)) {
-                    printf("]");
-                    i+=1;
-                    }
-                }
-                for(int b = 0; b < 3; b++) {
-                if((i == 76) && (y == racket2+b)) {
-                    printf("[");
-                    i+=1;
-                    }
-                }
-                if((i == ball_x) && (y == ball_y)) {
-                    printf("*");
-                    i+=1;
-                }
-            }
-            printf(" ");
-        }
+
+int check_racket(int x, int y, int shift, int racket) {
+    for ( int j = 0; j < RACKET_WIDTH; ++j ) {
+        if ( x == shift && y == racket + j )
+            return 1;
     }
-    printf("\n");
+    return 0;
+}
+
+void draw(ball_x, ball_y, racket1, racket2, score1, score2) {
+    for (int y = 0; y <= FIELD_HIGHT - 1; y++ ) {
+        for(int x = 0; x <= FIELD_WIDTH - 1; x++) {
+            // score
+            if ( (y == 0) && ( x == FIELD_WIDTH / 2 - 3 ) ) {
+                    printf("_%2d||%2d_", score1, score2);
+                    x +=7;
+            // borders
+            } else if (y == 0 || y == FIELD_HIGHT - 1) {
+                printf("-");
+            } else if (x == 0 || x == FIELD_WIDTH - 1) {
+                printf("|");
+            // rackets
+            } else if (check_racket(x ,y, RACKET_SHIFT, racket1)) {
+                printf("]");
+            } else if (check_racket(x, y, FIELD_WIDTH - RACKET_SHIFT, racket2)) {
+                printf("[");
+            // ball
+            } else if (x == ball_x && y == ball_y) {
+                printf("*");
+            } else {
+                printf(" ");
+            }
+        }
+        printf("\n");
     }
 }
 
-  int main()
-  {
-      
-      draw();
-    
-      return 0;
+
+
+int main()
+{
+    int x, y, r1, r2, s1, s2;
+    while (1) {
+        scanf("%d %d %d %d %d %d ", &x, &y, &r1, &r2, &s1, &s2);
+        draw(x, y ,r1 , r2, s1, s2);
+        printf("\n\n\n\n\n\n\n\n");
+    }
+    return 0;
   }
