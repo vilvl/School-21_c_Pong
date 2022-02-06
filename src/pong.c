@@ -92,14 +92,13 @@ int game_loop(double *ball_x, double *ball_y,
             double *ball_VX, double *ball_VY,
             int *racket_l, int *racket_r,
             int *score_l, int *score_r) {
-    int inp1, inp2, score;
     while (1) {
-        inp1 = get_input(0);
+        int inp1 = get_input(0);
         if (inp1 == 2)
             return 1;
         if (inp1 != 3) {
             mv_racket(racket_l, inp1);
-            inp2 = get_input(1);
+            int inp2 = get_input(1);
             if (inp2 == 2)
                 return 1;
             if (inp2 != 3)
@@ -107,7 +106,7 @@ int game_loop(double *ball_x, double *ball_y,
         }
         fseek(stdin, 0, SEEK_END);
 
-        score = mv_ball(ball_x, ball_y, ball_VX, ball_VY,
+        int score = mv_ball(ball_x, ball_y, ball_VX, ball_VY,
                 *racket_l, *racket_r);
 
         if (score) {
@@ -173,8 +172,6 @@ int mv_ball(double *ball_x, double *ball_y,
     if (*ball_y < 1) {
         *ball_y = 1 + 1 - *ball_y;
         *ball_VY = -*ball_VY;
-        if ((int)*ball_y <= 1)
-            *ball_y = 2;
     } else if (*ball_y > FIELD_HIGHT - 1) {
         *ball_y = FIELD_HIGHT - 1 - (*ball_y - FIELD_HIGHT - 1);
         *ball_VY = -*ball_VY;
